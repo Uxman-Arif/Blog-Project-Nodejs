@@ -8,6 +8,9 @@ const blogSchema = mongoose.Schema({
     description:{
         type: String,
         required: true,
+    },
+    imageurl:{
+        type:String,
     }
 }, {timestamps:true});
 
