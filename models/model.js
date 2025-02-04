@@ -11,7 +11,11 @@ const blogSchema = mongoose.Schema({
     },
     imageurl:{
         type:String,
-    }
+    },
+    createdby:{
+        type: mongoose.Schema.Types.ObjectId,
+        ref:'Userauth',
+    },
 }, {timestamps:true});
 
 const blogmodel = mongoose.model('blogs', blogSchema);

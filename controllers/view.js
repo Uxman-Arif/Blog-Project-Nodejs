@@ -16,7 +16,10 @@ const upload = multer({ storage: storage });
 
 
 async function index(req, res) {
-    const blogs = await blog.find({});
+    if(!req.user){
+        return res.redirect('/user/signin');
+    }
+    const blogs = await blog.find({createdby: req.user._id});
     return res.render('index', {blogs:blogs});
 };
 
@@ -26,7 +29,7 @@ const addblog = async (req, res) => {
         if (!data.name & !data.Description){
             return res.json({msg:'ni a 10 k data kn peyjc...'});
         }else{
-            await blog.create({title:data.title, description:data.Description, imageurl: `/uploads/${req.file.filename}`})
+            await blog.create({title:data.title, description:data.Description, imageurl: `/uploads/${req.file.filename}`, createdby:req.user._id})
         }
     }
     return res.render('addblog');
@@ -34,7 +37,6 @@ const addblog = async (req, res) => {
 
 async function blogdetail(req, res) {
     const blogs = await blog.findOne({title:req.params.id});
-    console.log(blogs)
     return res.render('blogdetail', {blog:blogs});
 };
 

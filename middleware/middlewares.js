@@ -2,14 +2,12 @@ const { getuser } = require('../servises/usersession');
 
 async function uservalidation(req, res, next) {
     const userid = req.cookies?.uuid;
-    console.log(userid)
     if(!userid){
-        console.log('not')
-        return res.redirect('/user/login');
+        return res.redirect('/user/signin');
     }
 
     const checking_user = getuser(userid);
-    console.log(checking_user)
+    req.user = checking_user;
     next()
 
 };
