@@ -17,10 +17,10 @@ async function Signinfnc(req, res) {
     if(req.method==='POST'){
         checkuser = await usermodel.findOne({email:data.email, password:data.password});
         if(checkuser){
-            sessionid = uuidv4();
-            postuser(sessionid, checkuser);
-            res.cookie('uuid', sessionid);
-            return res.redirect('/blogs')
+            const token = postuser(checkuser);
+            // res.cookie('token', token);
+            // return res.redirect('/blogs')
+            return res.json({ token });
         }else{
             return res.json({msg:'invalid user credentials!'});
         };

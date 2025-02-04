@@ -2,17 +2,15 @@ const srfmap = new Map();
 const jwt = require('jsonwebtoken');
 const secret_key = 'sanabasheer@thexmn';
 
-function postuser(id, user){
-    srfmap.set(id, user);
-    const payload = {
-        id,
-        ...user,
-    }
-    return jwt.sign(payload, secret_key);
+function postuser(user){
+    return jwt.sign({
+        _id:user._id,
+        email: user.email,
+    }, secret_key);
 };
 
-function getuser(id){
-    return srfmap.get(id);
+function getuser(token){
+    return jwt.verify(token, secret_key);
 };
 
 module.exports = {
